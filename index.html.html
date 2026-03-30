@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Advertisement – Santanu Kar</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #e8edf3;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+
+  .poster {
+    background: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+  }
+
+  /* TOP BANNER */
+  .banner {
+    background: #004e8c;
+    padding: 28px 32px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .banner::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: 60px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .banner-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #E8A020;
+    color: #1a1a1a;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .banner-tag .dot {
+    width: 6px; height: 6px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .banner h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .banner h1 span { color: #f0c060; }
+  .banner-sub {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+
+  /* BODY */
+  .body { padding: 26px 32px; }
+
+  .hi-line {
+    font-size: 0.97rem;
+    color: #2d3f55;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .hi-line strong { color: #004e8c; font-weight: 600; }
+
+  /* COVERS GRID */
+  .covers-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #7a8fa6;
+    margin-bottom: 10px;
+  }
+  .covers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .cover-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #f4f8fd;
+    border: 1px solid #d8e6f2;
+    border-radius: 10px;
+    padding: 10px 13px;
+    font-size: 0.84rem;
+    color: #2d3f55;
+    font-weight: 500;
+  }
+  .cover-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    background: #ddeaf7;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* BADGES ROW */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .badge {
+    display: flex; align-items: center; gap: 5px;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .badge-green { background: #e6f4ec; color: #1a7f4b; border: 1px solid #b8dfc9; }
+  .badge-blue  { background: #e4f0fb; color: #185FA5; border: 1px solid #b5d4f4; }
+  .badge-amber { background: #fef3dc; color: #8a5400; border: 1px solid #f5d891; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid #e2eaf3; margin: 0 0 22px; }
+
+  /* CALL TO ACTION */
+  .cta-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #7a8fa6;
+    margin-bottom: 14px;
+  }
+
+  .cta-block {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* QR */
+  .qr-wrap {
+    flex-shrink: 0;
+    background: #fff;
+    border: 1.5px solid #c5d8ee;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  #qrcode canvas, #qrcode img { display: block; border-radius: 4px; }
+  .qr-caption {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #7a8fa6;
+    text-align: center;
+  }
+
+  /* LINK + BUTTON */
+  .link-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .link-row {
+    background: #f4f8fd;
+    border: 1px solid #c5d8ee;
+    border-radius: 9px;
+    padding: 10px 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .link-row a {
+    flex: 1;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: #004e8c;
+    word-break: break-all;
+    text-decoration: none;
+  }
+  .link-row a:hover { text-decoration: underline; }
+  .copy-btn {
+    background: #004e8c;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: #003a6a; }
+  .copy-btn.copied { background: #1a7f4b; }
+
+  .open-btn {
+    display: block;
+    background: #E8A020;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .open-btn:hover { opacity: 0.88; }
+
+  .select-dorm-note {
+    font-size: 0.78rem;
+    color: #7a8fa6;
+    line-height: 1.5;
+  }
+  .select-dorm-note strong { color: #004e8c; }
+
+  /* FOOTER */
+  .poster-footer {
+    background: #f4f8fd;
+    border-top: 1px solid #dde8f3;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .author-info { }
+  .author-info .name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a2535;
+  }
+  .author-info .role {
+    font-size: 0.75rem;
+    color: #7a8fa6;
+  }
+  .thank-you {
+    font-size: 0.88rem;
+    color: #004e8c;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-tag"><div class="dot"></div> Quick Help Needed</div>
+    <h1>5 Minutes That Can<br>Make a <span>Real Impact!</span></h1>
+    <div class="banner-sub">Anonymous Student Housing Survey · Leibniz University Hannover</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <p class="hi-line">
+      Hi everyone! I'm conducting a short anonymous survey (<strong>⏱ &lt;5 mins</strong>) for students living in dorms/hostels in Braunschweig for my Master's thesis in Land Management.
+    </p>
+
+    <div class="covers-label">This survey covers</div>
+    <div class="covers-grid">
+      <div class="cover-item"><div class="cover-icon">🏠</div>Living conditions &amp; facilities</div>
+      <div class="cover-item"><div class="cover-icon">💶</div>Rent affordability</div>
+      <div class="cover-item"><div class="cover-icon">🚌</div>Commute &amp; location</div>
+      <div class="cover-item"><div class="cover-icon">⭐</div>Overall satisfaction</div>
+    </div>
+
+    <div class="badges">
+      <span class="badge badge-green">✓ 100% Anonymous</span>
+      <span class="badge badge-blue">🔒 GDPR-Compliant · LUIS hosted</span>
+      <span class="badge badge-amber">💡 Real experiences → Real change</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="cta-label">Take the survey — select your dorm</div>
+
+    <div class="cta-block">
+      <div class="qr-wrap">
+        <div id="qrcode"></div>
+        <div class="qr-caption">Scan to open</div>
+      </div>
+      <div class="link-side">
+        <div class="link-row">
+          <a href="https://survey.uni-hannover.de/index.php/561496?lang=en" target="_blank" rel="noopener" id="survey-link">survey.uni-hannover.de/…/561496</a>
+          <button class="copy-btn" id="copy-btn" onclick="copyLink()">Copy</button>
+        </div>
+        <a class="open-btn" href="https://survey.uni-hannover.de/index.php/561496?lang=en" target="_blank" rel="noopener">
+          ▶ Open Survey Now
+        </a>
+        <p class="select-dorm-note">
+          👆 Opens the <strong>dorm selector page</strong> — choose your building and you'll be taken directly to your specific survey.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="poster-footer">
+    <div class="author-info">
+      <div class="name">Master's Student</div>
+      <div class="role">Master's Student · Land Management · Leibniz University Hannover</div>
+    </div>
+    <div class="thank-you">Thank you! 🙌</div>
+  </div>
+
+</div>
+
+<script>
+  new QRCode(document.getElementById('qrcode'), {
+    text: 'https://survey.uni-hannover.de/index.php/561496?lang=en',
+    width: 120,
+    height: 120,
+    colorDark: '#004e8c',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  function copyLink() {
+    navigator.clipboard.writeText('https://survey.uni-hannover.de/index.php/561496?lang=en').then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2500);
+    });
+  }
+</script>
+
+</body>
+</html>
